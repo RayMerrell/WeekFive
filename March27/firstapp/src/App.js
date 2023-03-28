@@ -11,7 +11,7 @@ function App() {
   let arrDescriptions=["Entire Homes", "Unique Stays", "Cabins and cottages", "Pets allowed"]
   let arrBBC = [
     {
-      imageSRC:"https://unsplash.it/100/250",
+      imageSRC:"https://unsplash.it/249/250",
       alt:"",
       title:"Don't think pandemic is over, Whitty warns",
       paragraph:"Unlocking too quickly would lead to a substantial surge in infection, UK chief medical advisor says.",
@@ -20,7 +20,7 @@ function App() {
       flags:""  
     },
    {
-      imageSRC:"https://unsplash.it/100/251",
+      imageSRC:"https://unsplash.it/248/250",
       alt:"",
       title:"Pay rise was set to be 2.1% - NHS chief",
       paragraph:"NHS England boss backs ministers over pay dispute but does not rule out a one-off bonus for workers.",
@@ -29,7 +29,7 @@ function App() {
       flags:""  
     },
     {
-      imageSRC:"https://unsplash.it/102/252",
+      imageSRC:"https://unsplash.it/250/249",
       alt:"",
       title:"Charity crisicises Morgan's comments about Meghan",
       paragraph:"Mental health charity Mind says it is 'disapointed' by comments Piers Morgan made on Monday.",
@@ -38,7 +38,7 @@ function App() {
       flags:"" 
     },
     {
-      imageSRC:"https://unsplash.it/100/253",
+      imageSRC:"https://unsplash.it/250/250",
       alt:"",
       title:"Unilever drops word 'normal' from beauty products",
       paragraph:"The owner of Dove and vasseline will remove the word from about 200 products in a push  for inclusivity.",
