@@ -1,0 +1,42 @@
+*{
+  border:0;
+  margin:0;
+  box-sizing:border-box;
+}
+.App {
+  text-align: center;
+}
+#Netflix, #Holiday, #BBC{
+  margin:auto;
+  width:50%;
+  min-height:25vh;
+  display:flex;
+}
+.netflix-child{
+  min-width:20%;
+}
+.holiday-child{
+  min-width:25%;
+  padding:0.5em;
+}
+.BBC-child{
+  min-width:25%;
+  padding:0.5em;
+}
+.orange{
+  background-color: orange;
+}
+.blue{
+  background-color: blue;
+}
+.images{
+  width:100%;
+  min-height:100%;
+}
+.holiday-image, .BBC-image{
+  width:100%;  
+}
+p{
+  text-align:left;
+  font-size:0.65rem;
+}
