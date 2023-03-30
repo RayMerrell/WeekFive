@@ -1,4 +1,4 @@
-import { evaluate, isNumeric } from "mathjs";
+import { evaluate } from "mathjs";
 import { useState } from "react";
 
 const arrSimpleButtons=[
@@ -53,6 +53,7 @@ const arrSimpleButtons=[
 ];
 let answer=0;
 let partOne="";
+let booEqualsPressed = false;
 let booPartOneDone = false;
 let operator = "";
 let partTwo = "";
@@ -60,43 +61,59 @@ let partTwo = "";
 const Calculator = () => {
     const [readOut, setReadout] = useState("0");
     const handleClick = (val) => {
-        let inp = val.toString();
-        switch (inp){
-            case math.isNumeric(inp):
-                console.log("isnumber");
-                if (!booPartOneDone){
-                    if (partOne === "0"){
-                        partOne = val.toString();
-                    }else{
-                        partOne = partOne + val.toString();
-                    }
+        
+        if (!isNaN(val)){
+            console.log("isnumber");
+            booEqualsPressed=false;
+            if (!booPartOneDone){
+                if (partOne === "0"){
+                    partOne = val.toString();
                 }else{
-                    partTwo = partTwo + val.toString();
+                    partOne = partOne + val.toString();
                 }
-                setReadout(partOne + operator + partTwo);
-                break;
-            case "=":
-                console.log("answer", partOne);
-                answer = evaluate(readOut);
-                partOne = answer.toString();
-                setReadout(partOne);                
-                break;
-            case "Cancel":
-                console.log("cancel", partOne);
-                partOne="";
-                partTwo="";
-                answer="";
-                booPartOneDone=false;
-                operator ="";
-                setReadout("0");
-                break;
-            default: ///operator
-            console.log("Operator", partOne)
-                booPartOneDone = true;
-                operator = val.toString();
-                setReadout(partOne + operator);
+            }else{
+                partTwo = partTwo + val.toString();
+            }
+            setReadout(partOne + operator + partTwo);
+        }else{
+            let inp = val.toString();
+            switch (inp){
+                case "=":
+                    booEqualsPressed=true;
+                    if (partTwo !== ""){
+                        console.log("answer", partOne, operator, partTwo);
+                        answer = evaluate(partOne + operator + partTwo);
+                        partOne = answer.toString();
+                        setReadout(partOne);
+                        booPartOneDone=true;
+                    }                
+                    break;
+                case "Cancel":
+                    booEqualsPressed=false;
+                    booPartOneDone=false;
+                    console.log("cancel", partOne);
+                    partOne="";
+                    partTwo="";
+                    answer="";
+                    operator ="";
+                    setReadout("0");
+                    break;
+                default: ///operator
+                    console.log("Operator", partOne)
+                    if (partOne !=="" && !booEqualsPressed && partTwo !==""){
+                        answer = evaluate(partOne + operator + partTwo);//take it as "="
+                        partOne = answer.toString();
+                        partTwo="";                                
+                    }
+                    if (booEqualsPressed){
+                        partTwo=""; 
+                    }                    
+                    operator = inp;                    
+                    booPartOneDone=true;  
+                    booEqualsPressed=false;
+                    setReadout(partOne + operator + partTwo);
+            }
         }
-
     }
 
     return (
@@ -104,14 +121,12 @@ const Calculator = () => {
             <div className="StandardCalculatorReadout">
                 <p>{readOut}</p>
             </div>
-            <div className="StandardCalculatorButtons">
             {arrSimpleButtons.map((btn, index)=>{
                 return (
                 <button key={index} className={btn.class} onClick={()=>handleClick(btn.value)} value={btn.value} >
                     {btn.name}
                 </button>)
-            })}     
-            </div>
+            })}    
         </div>
     );
 }
