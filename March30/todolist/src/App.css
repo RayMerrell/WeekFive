@@ -1,0 +1,42 @@
+*{
+  padding:0;
+  margin:0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+.tasksContainer{
+  text-align: left;
+  margin-left:2rem;
+  margin-top:2rem;
+
+}
+.taskList{
+background-color: aquamarine;
+width:50%;
+margin:auto;
+
+}
+.taskItem{
+    padding:0.5rem;
+    user-select: none;
+}
+button{
+  margin:0.3rem;
+  border-radius: 0.24rem;
+  border:none;
+  padding:0.25rem;
+  cursor:pointer;
+
+}
+button:hover{
+  background-color: white;
+}
+.editBoxHidden{
+  display:none;
+}
+.editBoxShown{
+  display:block;
+}
