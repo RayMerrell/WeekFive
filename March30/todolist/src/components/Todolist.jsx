@@ -3,65 +3,72 @@ import { v4 as uuidv4 } from "uuid";
 import TaskList from "./TaskList";
 
 const TodoList = () => {
-
-    const [editBoxClassName, setEditable] = useState("editBoxHidden");
     const [taskItems, setTaskItems] = useState([
         {
             id:uuidv4(),
-            content:"Cook breakfast"
+            content:"Cook breakfast",
+            done:true
         },
         {
             id:uuidv4(),
-            content:"Call Boss"
+            content:"Call Boss",
+            done:false
         },
         {
             id:uuidv4(),
-            content:"Walk doglet"
+            content:"Walk doglet",
+            done:false
         }
     ]);
-    
+    const [editBoxStyle, setEditBoxStyle] = useState("editBoxHidden");//had to split these two up because of issues of not updateing
+    const [editBoxContent, setEditBoxContent] = useState({taskID:"", content:"", });
     const deleteTask = (id) =>{
-        console.log("Delete task", id); 
         let arrTemp = taskItems.filter(item=> item.id !== id);
-        console.log("arrTemp", arrTemp);
         setTaskItems(arrTemp);
     };
     const showEdit=()=>{
-        setEditable("editBoxShown");
+        setEditBoxStyle("editBoxShown");
     };
     const hideEdit=()=>{
-        setEditable("editBoxHidden");
+        setEditBoxStyle("editBoxHidden");
     };
+    const handleEdit=(e)=>{
+        setEditBoxContent({...editBoxContent, content:e.target.value});
+    }
     const addTask=()=>{
         let arrTemp = taskItems;        
-        let taskID = document.getElementById("textContent").taskid;
-        console.log("addtask", document.getElementById("textContent").value, taskID);
-        if ( taskID === undefined || taskID ===""){    
-            console.log("Additem")        
+        let taskID=editBoxContent.taskID;
+        if ( taskID === undefined || taskID ===""){       
             arrTemp.push ({
                 id:uuidv4(),
-                content:document.getElementById("textContent").value,
+                content:editBoxContent.content,
+                done:false
             })
         }else{
             for(let i=0; i<arrTemp.length;i++){
                 if (arrTemp[i].id === taskID) {
-                    arrTemp[i].content = document.getElementById("textContent").value;
+                    arrTemp[i].content = editBoxContent.content;
                 };
             }
         };
         hideEdit();
+        setEditBoxContent({taskID:"",content:""});
         setTaskItems(arrTemp);
-        document.getElementById("textContent").value="";
-        document.getElementById("textContent").taskid="";
     };
 
-    const startEditTask=(id, text)=>{
-        let arrTemp = taskItems;
+    const startEditTask=(id, text)=>{   
+        setEditBoxContent({taskID:id, content:text });
         showEdit();
-        document.getElementById("textContent").value = text;
-        document.getElementById("textContent").taskid = id;
     };
-
+    const markTaskDone=(e)=>{
+        let arrTemp = taskItems;
+        for(let i=0; i<arrTemp.length;i++){
+            if (arrTemp[i].id == e.target.value) {
+                arrTemp[i].done = e.target.checked;
+            };
+        }
+        setTaskItems([...arrTemp]);//it's "reactive" lmfao
+    }
     return (
         <div className="tasksContainer" key="tasklistcontainer">
             <div className="taskList" key="taskList">
@@ -71,12 +78,15 @@ const TodoList = () => {
                         content={task.content}
                         deleteTask={deleteTask} 
                         editTask = {startEditTask}
+                        done = {task.done}
+                        markDone={markTaskDone}
                     />
                 ))}
             </div>
             <br key="br"></br>
-            <div className={ editBoxClassName } key="editboxarea">
-                <textarea id="textContent" taskid="" key="textarea"></textarea>
+            <div className={ editBoxStyle } key="editboxarea">
+                <textarea id="textContent" taskid={editBoxContent.taskID} key="textarea" onChange={handleEdit} value={editBoxContent.content}>
+                </textarea>
                 <button onClick={addTask} key="submitButton">Submit</button>
             </div>
 
